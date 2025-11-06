@@ -3,12 +3,12 @@ import 'leaflet/dist/leaflet.css';
 import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet';
 import { Box } from '@mui/material';
 import { MapWrapperStyle } from '../sections/section-styles';
-import { MapCenter, MapZoom } from './map-model';
+import { MapCenter, MapLocation, MapTileAtt, MapTileUrl, MapZoom } from './map-model';
 import { useListener } from 'react-bus';
 import { MapSearchEvent } from './map-events';
 import { searchMapData } from './map-services';
 import { IconComponent } from '../menu/IconComponent';
-import { renderToStaticMarkup, renderToString } from 'react-dom/server';
+import { renderToString } from 'react-dom/server';
 import { divIcon } from 'leaflet';
 
 const ComponentResize = () => {
@@ -30,11 +30,6 @@ interface MapData {
 export const Map = (): React.ReactElement => {
     const [data, setData] = useState<MapData>();
     
-    const tileAtt = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
-    const tileUrl = 'https://{s}.tile.osm.org/{z}/{x}/{y}.png';
-
-    const location = 'Surprise+Arizona';
-
     const customMarkerIcon = (icon: any) => {
         return divIcon({
             html: icon,
@@ -43,12 +38,12 @@ export const Map = (): React.ReactElement => {
     };
 
     const handleMapSearchEvent = React.useCallback(function (value: any) {
-        searchMapData(value, location).then((res) => {
+        searchMapData(value, MapLocation).then((res) => {
             setData(
                 {
                     ...res,
                     section: value,
-                    icon: renderToStaticMarkup(<IconComponent name={value} />)
+                    icon: renderToString(<IconComponent name={value} />)
                 }
             );
             console.debug(res); // ToDo: remove debug
@@ -68,7 +63,7 @@ export const Map = (): React.ReactElement => {
                 zoom={MapZoom}
                 >
                 <ComponentResize />
-                <TileLayer attribution={tileAtt} url={tileUrl} />
+                <TileLayer attribution={MapTileAtt} url={MapTileUrl} />
                 {data?.places?.map((place) => (
                     <Marker
                         position={[place.gps_coordinates.latitude, place.gps_coordinates.longitude]}
