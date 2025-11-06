@@ -1,0 +1,1 @@
+export const MapSearchEvent = 'mapSearchEvent';
