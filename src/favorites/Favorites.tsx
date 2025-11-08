@@ -4,18 +4,14 @@ import IconButton from '@mui/material/IconButton';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useBus, useListener } from 'react-bus';
 import { Box, Drawer, Typography } from '@mui/material';
-import { Favorite } from './favorite-model';
 import { Sections } from '../menu/menu-model';
+import { Location } from 'maps/map-location';
 import { RemoveFavEvent, ToggleFavEvent, ViewFavEvent } from './favorite-events';
 
 
-interface FavoriteProps {
-    favorites: Favorite[];
-}
-
-export const Favorites = ({ favorites }: FavoriteProps): React.ReactElement => {
+export const Favorites = (): React.ReactElement => {
     const [open, setOpen] = useState<boolean>(false);
-    const [favs, setFavs] = useState(favorites);
+    const [favs, setFavs] = useState<Location[]>([]);
 
     const bus = useBus();
     
