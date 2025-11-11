@@ -71,7 +71,8 @@ export const Map = (): React.ReactElement => {
                         key={place.place_id}
                     >
                         <Popup>
-                            {place.title}
+                            <b>{place.title}</b>
+                            <p>{place.address}</p>
                         </Popup>
                     </Marker>
                 ))}

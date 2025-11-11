@@ -29,8 +29,8 @@ export const MainMenu = (): React.ReactElement => {
                 </Tooltip>
 
                 {MenuItems.map((section, index) => (
-                    <>
-                        <Tooltip title={section} key={`section-${section}`}>
+                    <Box key={`menu-item-${section}`} sx={{ display: 'flex', alignItems: 'center' }}>
+                        <Tooltip title={section}>
                             <Button
                                 aria-label={section}
                                 color='secondary'
@@ -40,7 +40,7 @@ export const MainMenu = (): React.ReactElement => {
                             </Button>
                         </Tooltip>
                         { index < MenuItems.length - 1 ? <Typography color='secondary' sx={{ opacity: 0.25 }}>|</Typography> : null }
-                    </>
+                    </Box>
                 ))}
             </Box>
 
